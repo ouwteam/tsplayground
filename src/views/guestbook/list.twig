@@ -1,0 +1,53 @@
+{% extends "app.twig" %}
+
+{% block title %} List Guestbook {% endblock %}
+{% block appheader %}
+{{ parent() }}
+<style type="text/css">
+    body {
+        background-color: bisque;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>List Guestbook</h1>
+<a href="/form">New Entry</a>
+<br>
+<br>
+    <ul>
+        {% for message in messages %}
+        <li>
+            <b>{{ message.user.name }}</b>
+            <p>{{ message.message_content }}</p>
+    
+            <br>
+            <button data-action="/api/guestbook/delete?id={{ message.id }}" type="button">Delete</button>
+        </li>
+        <hr>        
+        {% else %}
+        <li>No entry..</li>
+        {% endfor %}
+    </ul>
+    
+{% endblock %}
+
+{% block appfooter %}
+<script>
+    $(document).ready(function() {
+        const btnAction = $('button[data-action]');
+        btnAction.click(async function (evt) {
+            evt.preventDefault();
+            var _this = $(this);
+            
+            try {
+                const res = await $.get(_this.data("action"));
+                alert("deleted!");
+                window.location.reload();
+            } catch (error) {
+                alert("Delete failed")
+            }
+        });
+    });
+</script>
+{% endblock %}
