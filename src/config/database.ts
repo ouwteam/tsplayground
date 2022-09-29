@@ -7,7 +7,7 @@ export const db: Sequelize = new Sequelize({
     password: <string>process.env.DB_PASS,
     port: parseInt(<string>process.env.DB_PORT, 10) || 5432,
     dialect: 'mysql',
-    timezone: 'Asia/Jakarta'
+    timezone: '+07:00'
 });
 
 export default async function syncDB() {
